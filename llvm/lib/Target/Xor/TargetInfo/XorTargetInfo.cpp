@@ -17,5 +17,5 @@ Target llvm::TheXorTarget;
 extern "C" void LLVMInitializeXorTargetInfo() {
   RegisterTarget<Triple::Xor,
                  /*HasJIT=*/false>
-      X(TheXorTarget, "Xor", "Xor (32-bit Xorulator arch)", "Xor");
+      X(TheXorTarget, "Xor", "Xor (32-bit RISC-V arch)", "Xor");
 }

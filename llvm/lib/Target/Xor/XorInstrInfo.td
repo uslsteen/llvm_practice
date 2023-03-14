@@ -10,6 +10,39 @@ include "XorInstrFormats.td"
 // Instructions
 //===----------------------------------------------------------------------===//
 
+def simm12 : Operand<i32> {}
+
+def uimmlog2 : Operand<i32> {}
+
+let hasSideEffects = 0, mayLoad = 0,
+    mayStore =
+        0 in class ALU_rr<bits<7> funct7, bits<3> funct3, string opcodestr>
+    : XorInstR<funct7, funct3, OPC_OP,
+                (outs HartRegs
+                 : $rd),
+                (ins HartRegs
+                 : $rs1, HartRegs
+                 : $rs2), "$rd, $rs1, $rs2", []>;
+
+let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in 
+class ALU_ri<bits<3> funct3, string opcodestr>
+    : XorInstI<funct3, OPC_OP_IMM,
+                (outs HartRegs
+                 : $rd),
+                (ins HartRegs
+                 : $rs1, simm12 : $imm12),
+                opcodestr, "$rd, $rs1, $imm12", []>;
+
+let hasSideEffects = 0, mayLoad = 0,
+    mayStore =
+        0 in class Shift_ri<bits<5> imm11_7, bits<3> funct3, string opcodestr>
+    : XorInstIShift<imm11_7, funct3, OPC_OP_IMM,
+                     (outs HartRegs
+                      : $rd),
+                     (ins HartRegs
+                      : $rs1, uimmlog2 : $shamt),
+                     opcodestr, "$rd, $rs1, $shamt">;
+
 def ADDI : ALU_ri<0b000, "addi">;
 def SLTI : ALU_ri<0b010, "sltu">;
 def SLTIU : ALU_ri<0b011, "sltiu">;
