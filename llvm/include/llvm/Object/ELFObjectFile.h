@@ -265,8 +265,8 @@ private:
 protected:
   ELFFile<ELFT> EF;
 
-  const Elf_Shdr *DotDynSymSec = nullptr; // Dynamic symbol table section.
-  const Elf_Shdr *DotSymtabSec = nullptr; // Symbol table section.
+  const Elf_Shdr *DotDynSymSec = nullptr;      // Dynamic symbol table section.
+  const Elf_Shdr *DotSymtabSec = nullptr;      // Symbol table section.
   const Elf_Shdr *DotSymtabShndxSec = nullptr; // SHT_SYMTAB_SHNDX section.
 
   Error initContent() override;
@@ -621,8 +621,7 @@ uint32_t ELFObjectFile<ELFT>::getSymbolAlignment(DataRefImpl Symb) const {
   return 0;
 }
 
-template <class ELFT>
-uint16_t ELFObjectFile<ELFT>::getEMachine() const {
+template <class ELFT> uint16_t ELFObjectFile<ELFT>::getEMachine() const {
   return EF.getHeader().e_machine;
 }
 
@@ -1169,13 +1168,11 @@ section_iterator ELFObjectFile<ELFT>::section_end() const {
   return section_iterator(SectionRef(toDRI((*SectionsOrErr).end()), this));
 }
 
-template <class ELFT>
-uint8_t ELFObjectFile<ELFT>::getBytesInAddress() const {
+template <class ELFT> uint8_t ELFObjectFile<ELFT>::getBytesInAddress() const {
   return ELFT::Is64Bits ? 8 : 4;
 }
 
-template <class ELFT>
-StringRef ELFObjectFile<ELFT>::getFileFormatName() const {
+template <class ELFT> StringRef ELFObjectFile<ELFT>::getFileFormatName() const {
   constexpr bool IsLittleEndian = ELFT::TargetEndianness == support::little;
   switch (EF.getHeader().e_ident[ELF::EI_CLASS]) {
   case ELF::ELFCLASS32:
@@ -1209,6 +1206,8 @@ StringRef ELFObjectFile<ELFT>::getFileFormatName() const {
     case ELF::EM_SPARC:
     case ELF::EM_SPARC32PLUS:
       return "elf32-sparc";
+    case ELF::EM_xor:
+      return "elf32-xor";
     case ELF::EM_AMDGPU:
       return "elf32-amdgpu";
     case ELF::EM_LOONGARCH:
@@ -1303,6 +1302,9 @@ template <class ELFT> Triple::ArchType ELFObjectFile<ELFT>::getArch() const {
     return IsLittleEndian ? Triple::sparcel : Triple::sparc;
   case ELF::EM_SPARCV9:
     return Triple::sparcv9;
+
+  case ELF::EM_xor:
+    return Triple::Xor;
 
   case ELF::EM_AMDGPU: {
     if (!IsLittleEndian)

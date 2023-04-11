@@ -65,6 +65,7 @@ StringRef Triple::getArchTypeName(ArchType Kind) {
   case riscv32:        return "riscv32";
   case riscv64:        return "riscv64";
   case shave:          return "shave";
+  case Xor:            return "Xor";
   case sparc:          return "sparc";
   case sparcel:        return "sparcel";
   case sparcv9:        return "sparcv9";
@@ -122,6 +123,8 @@ StringRef Triple::getArchTypePrefix(ArchType Kind) {
 
   case amdgcn:      return "amdgcn";
   case r600:        return "r600";
+
+  case Xor:         return "Xor";
 
   case bpfel:
   case bpfeb:       return "bpf";
@@ -307,6 +310,7 @@ static Triple::ArchType parseBPFArch(StringRef ArchName) {
 Triple::ArchType Triple::getArchTypeForLLVMName(StringRef Name) {
   Triple::ArchType BPFArch(parseBPFArch(Name));
   return StringSwitch<Triple::ArchType>(Name)
+    .Case("Xor", Xor)
     .Case("aarch64", aarch64)
     .Case("aarch64_be", aarch64_be)
     .Case("aarch64_32", aarch64_32)
@@ -456,6 +460,7 @@ static Triple::ArchType parseArch(StringRef ArchName) {
     .Case("aarch64_32", Triple::aarch64_32)
     .Case("arc", Triple::arc)
     .Case("arm64", Triple::aarch64)
+    .Case("Xor", Triple::Xor)
     .Case("arm64_32", Triple::aarch64_32)
     .Case("arm64e", Triple::aarch64)
     .Case("arm", Triple::arm)
@@ -816,6 +821,7 @@ static Triple::ObjectFormatType getDefaultFormat(const Triple &T) {
   case Triple::mipsel:
   case Triple::msp430:
   case Triple::nvptx64:
+  case Triple::Xor:
   case Triple::nvptx:
   case Triple::ppc64le:
   case Triple::ppcle:
@@ -1404,6 +1410,7 @@ static unsigned getArchPointerBitWidth(llvm::Triple::ArchType Arch) {
   case llvm::Triple::sparcel:
   case llvm::Triple::spir:
   case llvm::Triple::spirv32:
+  case llvm::Triple::Xor:
   case llvm::Triple::tce:
   case llvm::Triple::tcele:
   case llvm::Triple::thumb:
@@ -1492,6 +1499,7 @@ Triple Triple::get32BitArchVariant() const {
   case Triple::shave:
   case Triple::sparc:
   case Triple::sparcel:
+  case Triple::Xor:
   case Triple::spir:
   case Triple::spirv32:
   case Triple::tce:
@@ -1599,6 +1607,7 @@ Triple Triple::get64BitArchVariant() const {
   case Triple::renderscript32:  T.setArch(Triple::renderscript64);     break;
   case Triple::riscv32:         T.setArch(Triple::riscv64);    break;
   case Triple::sparc:           T.setArch(Triple::sparcv9);    break;
+  case Triple::Xor:             T.setArch(Triple::Xor);        break;
   case Triple::spir:            T.setArch(Triple::spir64);     break;
   case Triple::spirv32:
     T.setArch(Triple::spirv64, getSubArch());

@@ -9,6 +9,7 @@
 #include "llvm/Object/ELF.h"
 #include "llvm/BinaryFormat/ELF.h"
 #include "llvm/Support/DataExtractor.h"
+#include "llvm/Support/ErrorHandling.h"
 
 using namespace llvm;
 using namespace object;
@@ -129,6 +130,13 @@ StringRef llvm::object::getELFRelocationTypeName(uint32_t Machine,
 #include "llvm/BinaryFormat/ELFRelocs/Sparc.def"
     default:
       break;
+    }
+    break;
+  case ELF::EM_xor:
+    switch (Type) {
+      default:
+        llvm_unreachable("");
+        break;
     }
     break;
   case ELF::EM_AMDGPU:
