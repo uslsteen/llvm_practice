@@ -1,4 +1,5 @@
 #include "MCTargetDesc/XorInfo.h"
+#include "MCTargetDesc/XorMCExpr.h"
 #include "XorInstPrinter.h"
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/MC/MCExpr.h"

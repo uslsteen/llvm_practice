@@ -11,6 +11,7 @@ tablegen(LLVM XorGenInstrInfo.inc -gen-instr-info)
 tablegen(LLVM XorGenCallingConv.inc -gen-callingconv)
 tablegen(LLVM XorGenMCPseudoLowering.inc -gen-pseudo-lowering)
 tablegen(LLVM XorGenSubtargetInfo.inc -gen-subtarget)
+tablegen(LLVM XorGenMCCodeEmitter.inc -gen-emitter)
 tablegen(LLVM XorGenAsmWriter.inc -gen-asm-writer)
 tablegen(LLVM XorGenDAGISel.inc -gen-dag-isel)
 

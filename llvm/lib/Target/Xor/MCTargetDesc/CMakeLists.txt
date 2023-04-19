@@ -3,6 +3,13 @@ add_llvm_component_library(LLVMXorDesc
   XorMCAsmInfo.cpp
   XorMCTargetDesc.cpp
   XorInfo.cpp
+  XorAsmBackend.cpp
+  XorMCCodeEmitter.cpp
+  XorMCExpr.cpp
+  XorELFObjectWriter.cpp
+  XorTargetStreamer.cpp
+  XorELFStreamer.cpp
+  XorMCObjectFIleInfo.cpp
 
   LINK_COMPONENTS
   MC

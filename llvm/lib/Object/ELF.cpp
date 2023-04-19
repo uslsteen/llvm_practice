@@ -132,9 +132,10 @@ StringRef llvm::object::getELFRelocationTypeName(uint32_t Machine,
       break;
     }
     break;
-  case ELF::EM_xor:
+  case ELF::EM_Xor:
     switch (Type) {
       default:
+#include "llvm/BinaryFormat/ELFRelocs/Xor.def"
         llvm_unreachable("");
         break;
     }

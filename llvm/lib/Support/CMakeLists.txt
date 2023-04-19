@@ -205,6 +205,8 @@ add_llvm_component_library(LLVMSupport
   RISCVAttributes.cpp
   RISCVAttributeParser.cpp
   RISCVISAInfo.cpp
+  XorAttributes.cpp
+  XorISAInfo.cpp
   ScaledNumber.cpp
   ScopedPrinter.cpp
   SHA1.cpp

@@ -1206,7 +1206,7 @@ template <class ELFT> StringRef ELFObjectFile<ELFT>::getFileFormatName() const {
     case ELF::EM_SPARC:
     case ELF::EM_SPARC32PLUS:
       return "elf32-sparc";
-    case ELF::EM_xor:
+    case ELF::EM_Xor:
       return "elf32-xor";
     case ELF::EM_AMDGPU:
       return "elf32-amdgpu";
@@ -1303,7 +1303,7 @@ template <class ELFT> Triple::ArchType ELFObjectFile<ELFT>::getArch() const {
   case ELF::EM_SPARCV9:
     return Triple::sparcv9;
 
-  case ELF::EM_xor:
+  case ELF::EM_Xor:
     return Triple::Xor;
 
   case ELF::EM_AMDGPU: {

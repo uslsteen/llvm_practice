@@ -320,6 +320,7 @@ enum {
   EM_VE = 251,            // NEC SX-Aurora VE
   EM_CSKY = 252,          // C-SKY 32-bit processor
   EM_LOONGARCH = 258,     // LoongArch
+  EM_Xor = 255,           // xor arch
 };
 
 // Object file classes.
@@ -674,6 +675,12 @@ enum : unsigned {
 enum {
 #include "ELFRelocs/RISCV.def"
 };
+
+// ELF Relocation types for Xor
+enum {
+#include "ELFRelocs/Xor.def"
+};
+
 
 enum {
   // Symbol may follow different calling convention than the standard calling
@@ -1042,6 +1049,8 @@ enum : unsigned {
   SHT_MSP430_ATTRIBUTES = 0x70000003U,
 
   SHT_RISCV_ATTRIBUTES = 0x70000003U,
+
+  SHT_Xor_ATTRIBUTES = 0x70000003U,
 
   SHT_CSKY_ATTRIBUTES = 0x70000001U,
 
