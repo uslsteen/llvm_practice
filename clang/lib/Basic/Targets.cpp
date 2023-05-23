@@ -32,6 +32,7 @@
 #include "Targets/RISCV.h"
 #include "Targets/SPIR.h"
 #include "Targets/Sparc.h"
+#include "Targets/Sim.h"
 #include "Targets/SystemZ.h"
 #include "Targets/TCE.h"
 #include "Targets/VE.h"
@@ -41,6 +42,7 @@
 #include "clang/Basic/Diagnostic.h"
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/ADT/Triple.h"
+#include "llvm/Support/ErrorHandling.h"
 
 using namespace clang;
 
@@ -466,6 +468,9 @@ TargetInfo *AllocateTarget(const llvm::Triple &Triple,
     default:
       return new SparcV9TargetInfo(Triple, Opts);
     }
+  
+  case llvm::Triple::sim:
+    return new simTargetInfo(Triple, Opts);
 
   case llvm::Triple::systemz:
     switch (os) {
