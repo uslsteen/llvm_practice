@@ -6,7 +6,7 @@
 using namespace clang;
 using namespace clang::targets;
 
-void simTargetInfo::getTargetDefines(const LangOptions &Opts,
+void SimTargetInfo::getTargetDefines(const LangOptions &Opts,
                                      MacroBuilder &Builder) const {
   Builder.defineMacro("__sim__");
 }

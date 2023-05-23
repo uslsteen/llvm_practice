@@ -31,8 +31,8 @@
 #include "Targets/PPC.h"
 #include "Targets/RISCV.h"
 #include "Targets/SPIR.h"
-#include "Targets/Sparc.h"
 #include "Targets/Sim.h"
+#include "Targets/Sparc.h"
 #include "Targets/SystemZ.h"
 #include "Targets/TCE.h"
 #include "Targets/VE.h"
@@ -42,7 +42,6 @@
 #include "clang/Basic/Diagnostic.h"
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/ADT/Triple.h"
-#include "llvm/Support/ErrorHandling.h"
 
 using namespace clang;
 
@@ -468,9 +467,9 @@ TargetInfo *AllocateTarget(const llvm::Triple &Triple,
     default:
       return new SparcV9TargetInfo(Triple, Opts);
     }
-  
+
   case llvm::Triple::sim:
-    return new simTargetInfo(Triple, Opts);
+    return new SimTargetInfo(Triple, Opts);
 
   case llvm::Triple::systemz:
     switch (os) {
@@ -629,14 +628,14 @@ TargetInfo *AllocateTarget(const llvm::Triple &Triple,
         !Triple.isOSBinFormatWasm())
       return nullptr;
     switch (os) {
-      case llvm::Triple::WASI:
-        return new WASITargetInfo<WebAssembly32TargetInfo>(Triple, Opts);
-      case llvm::Triple::Emscripten:
-        return new EmscriptenTargetInfo<WebAssembly32TargetInfo>(Triple, Opts);
-      case llvm::Triple::UnknownOS:
-        return new WebAssemblyOSTargetInfo<WebAssembly32TargetInfo>(Triple, Opts);
-      default:
-        return nullptr;
+    case llvm::Triple::WASI:
+      return new WASITargetInfo<WebAssembly32TargetInfo>(Triple, Opts);
+    case llvm::Triple::Emscripten:
+      return new EmscriptenTargetInfo<WebAssembly32TargetInfo>(Triple, Opts);
+    case llvm::Triple::UnknownOS:
+      return new WebAssemblyOSTargetInfo<WebAssembly32TargetInfo>(Triple, Opts);
+    default:
+      return nullptr;
     }
   case llvm::Triple::wasm64:
     if (Triple.getSubArch() != llvm::Triple::NoSubArch ||
@@ -644,14 +643,14 @@ TargetInfo *AllocateTarget(const llvm::Triple &Triple,
         !Triple.isOSBinFormatWasm())
       return nullptr;
     switch (os) {
-      case llvm::Triple::WASI:
-        return new WASITargetInfo<WebAssembly64TargetInfo>(Triple, Opts);
-      case llvm::Triple::Emscripten:
-        return new EmscriptenTargetInfo<WebAssembly64TargetInfo>(Triple, Opts);
-      case llvm::Triple::UnknownOS:
-        return new WebAssemblyOSTargetInfo<WebAssembly64TargetInfo>(Triple, Opts);
-      default:
-        return nullptr;
+    case llvm::Triple::WASI:
+      return new WASITargetInfo<WebAssembly64TargetInfo>(Triple, Opts);
+    case llvm::Triple::Emscripten:
+      return new EmscriptenTargetInfo<WebAssembly64TargetInfo>(Triple, Opts);
+    case llvm::Triple::UnknownOS:
+      return new WebAssemblyOSTargetInfo<WebAssembly64TargetInfo>(Triple, Opts);
+    default:
+      return nullptr;
     }
 
   case llvm::Triple::renderscript32:
@@ -693,8 +692,7 @@ TargetInfo::CreateTargetInfo(DiagnosticsEngine &Diags,
   }
 
   // Check the TuneCPU name if specified.
-  if (!Opts->TuneCPU.empty() &&
-      !Target->isValidTuneCPUName(Opts->TuneCPU)) {
+  if (!Opts->TuneCPU.empty() && !Target->isValidTuneCPUName(Opts->TuneCPU)) {
     Diags.Report(diag::err_target_unknown_cpu) << Opts->TuneCPU;
     SmallVector<StringRef, 32> ValidList;
     Target->fillValidTuneCPUList(ValidList);
